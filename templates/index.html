@@ -2,4 +2,18 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to Handy {% endblock %}</h1>
+    {% for article in articles %}
+            <b><a href="/extract?feedId={{article.link}}">{{article.title}}</a></b><br />
+            <i>{{article.published}} {{publication}}</i><br />
+
+            <p>{{article.summary}}</p>
+            <p>{{article.dc_abstract}}</p>
+            <img src={{image}}>
+            {%for img in article.media_thumbnail%} 
+                <img src={{img.url}}>
+            {%endfor%}
+            <hr />
+        {% endfor %}
 {% endblock %}
+
+
