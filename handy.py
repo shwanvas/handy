@@ -3,6 +3,8 @@ from flask import Flask, render_template,request
 import requests 
 import pandas as pd
 from bs4 import BeautifulSoup as bs
+from flask_paginate import Pagination, get_page_args
+
 
 
 def get_bbc_text(url):
@@ -65,22 +67,29 @@ def get_bbc_image(url:str) -> str:
     article = requests.get(url)
     articles = bs(article.content, "html.parser")
     articles_body = articles.findAll('article')
-    image = articles_body[0].find('img') 
+    image = articles_body[0].findAll('img') 
     return image
 app = Flask(__name__)
 
-RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml?edition=int',
-             'cnn': 'http://rss.cnn.com/rss/edition.rss',
-             'fox': 'http://feeds.foxnews.com/foxnews/latest',
-             'iol': 'https://rss.iol.io/iol/news'}
+RSS_FEEDS = ['http://feeds.bbci.co.uk/news/rss.xml?edition=int',
+             'http://rss.cnn.com/rss/edition.rss',
+             'http://feeds.foxnews.com/foxnews/latest'
+             ]
+
+
 
 
 @app.route("/")
-@app.route("/<publication>")
+def index():
+    search = False
+    q = request.args.get('q')
+    if q:
+        search = True
 
-def index(publication="bbc"):
-    feed = feedparser.parse(RSS_FEEDS[publication]) 
-    return render_template("index.html", articles=feed['entries'],feed=feed,publication=publication,image=image)
+    page, per_page, offset = get_page_args(page_parameter='page',per_page_parameter='per_page',type=int, default=1)    
+    pagination_articles = get_articles(offset=offset,per_page=per_page)
+    pagination = Pagination(page=page, total=len(feed),per_page=per_page, record_name='articles')
+    return render_template("index.html", articles=pagination_articles,pagination=pagination,page=page,per_page=int(per_page))
 @app.route("/extract")
 def extract():
     feedid = request.args.get('feedId')
@@ -89,11 +98,16 @@ def extract():
     image=get_bbc_image(feedid)
     return render_template("handyextract.html",body=parsed,title=title,image=image)
 
-    
+def get_feed():
+    posts = []
+    for url in RSS_FEEDS:
+        feed = feedparser.parse(url)
+        for post in feed.entries:
+            posts.append((post))
+    return posts
+feed =  get_feed()
+def get_articles(offset=0,per_page=5):
+    return feed[offset:offset+per_page]
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
-
-
-def get_feed():
-    

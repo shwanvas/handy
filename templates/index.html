@@ -2,6 +2,8 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to Handy {% endblock %}</h1>
+    {{ pagination.info }}
+
     {% for article in articles %}
             <b><a href="/extract?feedId={{article.link}}">{{article.title}}</a></b><br />
             <i>{{article.published}} {{publication}}</i><br />
@@ -14,6 +16,8 @@
             {%endfor%}
             <hr />
         {% endfor %}
+        {{ pagination.links }}
+
 {% endblock %}
 
 
