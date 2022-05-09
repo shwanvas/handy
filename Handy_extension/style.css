@@ -1,0 +1,147 @@
+h1 {
+    border: 2px #eee solid;
+    color: black;
+    text-align: center;
+    padding: 10px;
+}
+*{
+    font-family: 'Roboto Condensed', sans-serif;
+    }
+    .news-section{
+    padding:0;
+    }
+    .news-item{
+    float: left;
+    opacity: 1;
+    overflow: hidden;
+    position: relative;
+    }
+    .news-item:hover .news-item img{
+    width:0;
+    }
+    .news-item img{
+    width: 100%;
+    height: auto;
+    }
+    .news-item a,span{
+    color:#FFF;
+    }
+    .news-item .news-post span.news-icon {
+    font-family: sans-serif;
+    font-size:14px;
+    color: #fff;
+    margin-top: 15px;
+    display: inline-block;
+    }
+    .news-item .news-post span.news-icon span{
+    margin-right: 15px;
+    }
+    .news-item .news-post span.news-social-icon{
+    float:right;
+    }
+    .news-item .news-post span.news-social-icon span i{
+    background-color:transparent;
+    color:#fff;
+    border:1px solid #fff;
+    padding:8px;
+    border-radius: 50%;
+    height:35px;
+    width:35px;
+    text-align: center;
+    margin:2px 4px 0px 2px;
+    }
+    .news-item .news-post span.news-social-icon span i:hover{
+    background-color:#e1e1e1;
+    color:#000;
+    }
+    .news-item .news-post {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+    padding: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+    .news-item .news-post h1.news-title {
+    font-size:28px;
+    }
+    .news-post .badge{
+    letter-spacing:2px;
+    font-size:15px;
+    }
+    .keyboard {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 5px 0;
+        background: #000;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        user-select: none;
+        transition: bottom 0.4s;
+    }
+    
+    .keyboard--hidden {
+        bottom: -100%;
+    }
+    
+    .keyboard__keys {
+        text-align: center;
+    }
+    
+    .keyboard__key {
+        height: 45px;
+        width: 6%;
+        max-width: 90px;
+        margin: 3px;
+        border-radius: 4px;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-size: 1.05rem;
+        outline: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: top;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        position: relative;
+    }
+    
+    .keyboard__key:active {
+        background: rgba(255, 255, 255, 0.12);
+    }
+    
+    .keyboard__key--wide {
+        width: 12%;
+    }
+    
+    .keyboard__key--extra-wide {
+        width: 36%;
+        max-width: 500px;
+    }
+    
+    .keyboard__key--activatable::after {
+        content: '';
+        top: 10px;
+        right: 10px;
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 50%;
+    }
+    
+    .keyboard__key--active::after {
+        background: yellow;
+    }
+    
+    .keyboard__key--dark {
+        background: rgba(0, 0, 0, 0.25);
+    }
+    

@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {{title|safe}}
+    <h1>{{title}}</h1>
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     {% for post in image %}
-      {% if post != None %} 
-
-          <div class="carousel-item {% if loop.index == 1 %} active {% endif %}" id="slide{{ loop.index }}">
+      
+          <div class="carousel-item {% if loop.index == 2 %} active {% endif %}" id="slide{{ loop.index }}">
               <center>
-             {%if post['alt']!="line"%}
-              <img src="{{post['src']}}" alt="{{post['alt']}}" width="750px" height="450px"><strong><p>{{post['alt']}}</p></strong>
-              {%else%}
-              <img src="{{image[loop.index]['src']}}" alt="{{image[loop.index]['alt']}}" width="750px" height="450px"><strong><p>{{image[loop.index]['alt']}}</p></strong>
-            {%endif%}
+              
+              <img src={{image}} alt="{{image['alt']}}" width="750px" height="450px"><strong><p>{{image['alt']}}</p></strong>
+            
             </center>
           </div>
 
-     {% endif %}
+     
    {% endfor %} 
  </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -29,5 +26,5 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-    <p>{{body|safe}}</p>
+    <p class="lead">{{body|safe}}</p>
 {% endblock %}

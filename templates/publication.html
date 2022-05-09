@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{publication}} {% endblock %}</h1>
+    {{ pagination.info }}
+    {{ pagination.links }}
+    <hr/>
+    <div class="card-deck">
+    {% for article in articles %}
+            
+            <div class="card" style="min-width: 18rem; max-width: 21rem; margin-top: 5px;">
+                
+                    
+                <div class="card-body">
+                    <h4 class="card-title pb-3 mbr-fonts-style display-7">{{article.title}}</h4>
+                    <i>{{article.published}} </i><br />
+                    
+                      {{article.description|safe}}  <a href="/extract?feedId={{article.link}}">Read more...</a>
+                    
+
+                    <div><div class="
+                        flex-none
+                        p-1
+                        px-4
+                        -mr-1
+                        text-black
+                        lg:-mr-4
+                        sm:-mr-2
+                        sm:font-medium
+                        rounded-l-md
+                        bg-kokru-cyan
+                      ">
+                      {{article.category}}
+                    </div></div>
+                    <p class="source">Source:{{source}}</p>
+
+                </div>
+            </div>
+        
+            {% endfor %}
+        </div>
+        <hr />
+    
+        {{ pagination.links }}
+
+{% endblock %}
+
