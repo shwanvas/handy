@@ -5,9 +5,10 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 from newspaper import Article
 import nltk
+import os
 nltk.download('punkt')
 from flask_paginate import Pagination, get_page_args
-
+app = Flask(__name__)
 
 def get_bbc_text(url):
     """Parse bbc article and return text in list of string"""
@@ -18,10 +19,11 @@ def get_bbc_text(url):
     return article.title,article.text,article.top_image
 
 
-app = Flask(__name__)
+
 
 RSS_FEEDS = [
-    'https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms',
+    'https://timesofindia.indiatimes.com/blogs/feed/defaultrss',
+    'https://timesofindia.indiatimes.com/rssfeedstopstories.cms',
     'https://www.indiatoday.in/rss/home'
 ]
 
@@ -51,14 +53,14 @@ def travel():
     url = "http://timesofindia.indiatimes.com/rssfeedstopstories.cms"
     publication = "Travel"
     paginate = paginat(url)
-    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=feed[1])
+    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1][2])
 
 @app.route("/india")
 def india():
     url = "http://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms"
     publication = "India"
     paginate = paginat(url)
-    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=feed[1])
+    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1][2])
 
 
 @app.route("/world")
@@ -66,7 +68,7 @@ def world():
     url = "http://timesofindia.indiatimes.com/rssfeeds/296589292.cms"
     publication = "World"
     paginate = paginat(url)
-    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=feed[1])
+    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1][2])
 
 
 @app.route("/sports")
@@ -74,7 +76,7 @@ def sports():
     url = "https://timesofindia.indiatimes.com/rssfeeds/4719148.cms"
     publication = "Sports"
     paginate = paginat(url)
-    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=feed[1])
+    return render_template("publication.html", publication=publication, articles=paginate[1][1], pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1][2])
 
 
 @app.route("/political")
@@ -85,7 +87,7 @@ def political():
     articles = paginate[1][1]
     
 
-    return render_template("publication.html", publication=publication, articles=articles, pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1])
+    return render_template("publication.html", publication=publication, articles=articles, pagination=paginate[0], page=paginate[2], per_page=int(paginate[3]),source=paginate[1][2])
 
 
 def paginat(url):
@@ -126,5 +128,6 @@ def get_articles(offset=0, per_page=5):
     return feed[0][offset:offset+per_page]
 
 
-if __name__ == "__main__":
-    app.run(port=5000, debug=False)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000)) # <-----
+    app.run(host='0.0.0.0', port=port)
